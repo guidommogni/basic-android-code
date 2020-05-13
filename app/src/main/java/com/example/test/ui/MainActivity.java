@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
         presenter.getList();
     }
 
-    public void showList(final List<ModelVotes> votes) {
-        adapter.setVotesList(votes);
-    }
-
     public void setToolbarTitle(final String title) {
         toolbar.setTitle(title);
     }

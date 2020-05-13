@@ -58,8 +58,8 @@ public class MyListPresenter {
     }
 
     public void getList() {
-       disposable =
-               api.getList()
+        isLoadingData = true;
+        disposable = api.getList()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .map(ModelList::getFromDto)
@@ -76,6 +76,7 @@ public class MyListPresenter {
                 loadTitle(modelList.getTitle());
             }
         }
+        isLoadingData = false;
     }
 
     private void loadTitle(String title) {
@@ -86,7 +87,7 @@ public class MyListPresenter {
 
     private void loadList(final List<ModelVotes> votes) {
         if (isViewAttached()) {
-            view.get().showList(votes);
+            view.get().addMoreVotes(votes);
         }
     }
 

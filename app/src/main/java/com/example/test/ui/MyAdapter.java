@@ -12,21 +12,21 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.example.test.R;
 import com.example.test.model.ModelVotes;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 class MyAdapter extends Adapter<MyAdapter.ModelVotesViewHolder> {
 
-    public List<ModelVotes> votesList = new LinkedList<>();
+    public final List<ModelVotes> votesList;
 
-    public void setVotesList(List<ModelVotes> votesList) {
-        this.votesList = votesList;
-        notifyDataSetChanged();
+    MyAdapter() {
+        this.votesList = new ArrayList<>();
     }
 
     public void addVotes(List<ModelVotes> votes) {
+        final int index = this.votesList.size();
         this.votesList.addAll(votes);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(index, votes.size());
     }
 
     class ModelVotesViewHolder extends RecyclerView.ViewHolder {
@@ -61,11 +61,9 @@ class MyAdapter extends Adapter<MyAdapter.ModelVotesViewHolder> {
         holder.bind(votesList.get(position));
     }
 
+
     @Override
     public int getItemCount() {
-        if (votesList != null) {
-            return votesList.size();
-        }
-        return 0;
+        return votesList.size();
     }
 }
