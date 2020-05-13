@@ -1,11 +1,11 @@
 package com.example.test.ui;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter adapter;
     private MyListPresenter presenter;
     private Toolbar toolbar;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.my_recycler_view);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new MyAdapter();
         recyclerView.setAdapter(adapter);
 
@@ -48,14 +49,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnScrollEvent() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            recyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if (manager != null) {
-                    presenter.onScrollEvent(manager.findLastVisibleItemPosition());
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy != 0) {
+                    presenter.onScrollEvent(layoutManager.findLastVisibleItemPosition());
                 }
-            });
-        }
+            }
+        });
+
     }
 
     @Override

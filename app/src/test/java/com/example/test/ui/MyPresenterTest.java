@@ -46,7 +46,7 @@ public class MyPresenterTest {
         presenter.getList();
 
         verify(view).setToolbarTitle("title");
-        verify(view).showList(anyList());
+        verify(view).addMoreVotes(anyList());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class MyPresenterTest {
         presenter.getList();
         presenter.onScrollEvent(2);
 
-        verify(view).addMoreVotes(anyList());
+        verify(view, times(2)).addMoreVotes(anyList());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class MyPresenterTest {
         presenter.onScrollEvent(2);
         presenter.onScrollEvent(2);
 
-        verify(view, times(1)).addMoreVotes(anyList());
+        verify(view, times(2)).addMoreVotes(anyList());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MyPresenterTest {
         presenter.getList();
         presenter.onScrollEvent(2);
 
-        verify(view, never()).addMoreVotes(anyList());
+        verify(view).addMoreVotes(anyList());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MyPresenterTest {
         presenter.getList();
         presenter.onScrollEvent(1);
 
-        verify(view, never()).addMoreVotes(anyList());
+        verify(view).addMoreVotes(anyList());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MyPresenterTest {
         presenter.getList();
 
         verify(view, never()).setToolbarTitle(anyString());
-        verify(view).showList(anyList());
+        verify(view).addMoreVotes(anyList());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class MyPresenterTest {
 
         presenter.getList();
 
-        verify(view, never()).showList(anyList());
+        verify(view, never()).addMoreVotes(anyList());
     }
 
     private MyList getList() {
