@@ -11,13 +11,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.R;
 import com.example.test.di.ComponentsLocator;
 import com.example.test.model.ModelVotes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+
+import io.grpc.helloworldexample.R;
 
 public class MainActivity extends AppCompatActivity {
 
