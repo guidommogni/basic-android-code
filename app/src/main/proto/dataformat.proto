@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "WellConnectedAPI";
+option java_multiple_files = true;
+
+package WC;
+
+service WellConnected {
+	rpc Register (RegUser) returns (LoginResponse);
+	rpc Login (LoginReq) returns (LoginResponse);
+	rpc MOTD (google.protobuf.Empty) returns (MOTDReply);
+	rpc Test (TestSendMsg) returns (TestResMsg);
+}
+
+message MOTDReply {
+	string message = 1;
+}
+
+message RegUser{
+	string firstName = 1;
+	string lastName = 2;
+	string email = 3;
+	string password = 4;
+}
+
+message LoginReq{
+	string email = 1;
+	string password = 2;
+}
+
+message LoginResponse{
+	string authToken = 1;
+	string refreshToken = 2;
+	string firstName = 3;
+	string lastName = 4;
+}
+
+message TestSendMsg{
+	string nombre = 1;
+	string categoria = 2;
+}
+
+message TestResMsg{
+	string response = 1;
+}

@@ -9,12 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
+import com.example.test.R;
 import com.example.test.model.ModelVotes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.grpc.helloworldexample.R;
 
 class MyAdapter extends Adapter<MyAdapter.ModelVotesViewHolder> {
 

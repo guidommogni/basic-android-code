@@ -11,14 +11,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test.R;
 import com.example.test.di.ComponentsLocator;
 import com.example.test.model.ModelVotes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import io.grpc.helloworldexample.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.my_recycler_view);
         layoutManager = new LinearLayoutManager(this);
@@ -45,8 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         setOnScrollEvent();
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        try {
+            final InputStream inputStream = getResources().getAssets().open("grpc.crt");
+            fab.setOnClickListener(view -> presenter.testService(inputStream));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void setOnScrollEvent() {
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy != 0) {
-                    presenter.onScrollEvent(layoutManager.findLastVisibleItemPosition());
+                    //presenter.onScrollEvent(layoutManager.findLastVisibleItemPosition());
                 }
             }
         });
@@ -66,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         presenter.onAttachView(this);
-        presenter.getList();
     }
 
     public void setToolbarTitle(final String title) {
@@ -74,25 +78,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void shwError() {
@@ -105,7 +94,11 @@ public class MainActivity extends AppCompatActivity {
         presenter.onDetachView();
     }
 
-    public void addMoreVotes(List<ModelVotes> votes) {
+    public void showMessage(final String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    public void addMoreVotes(final List<ModelVotes> votes) {
         adapter.addVotes(votes);
     }
 }

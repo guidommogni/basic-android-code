@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package io.grpc.helloworldexample;
+package com.example.test.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.http.SslCertificate;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,11 +31,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.test.R;
+
+import WC.TestSendMsg;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import io.grpc.android.AndroidChannelBuilder;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.ref.WeakReference;
@@ -87,10 +90,11 @@ public class HelloworldActivity extends AppCompatActivity {
       int port = TextUtils.isEmpty(portStr) ? 0 : Integer.valueOf(portStr);
       try {
         channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-        GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
-        HelloRequest request = HelloRequest.newBuilder().setName(message).build();
-        HelloReply reply = stub.sayHello(request);
-        return reply.getMessage();
+
+       // GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+        //HelloRequest request = HelloRequest.newBuilder().setName(message).build();
+        //HelloReply reply = stub.sayHello(request);
+        //return reply.getMessage();
       } catch (Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -98,6 +102,7 @@ public class HelloworldActivity extends AppCompatActivity {
         pw.flush();
         return String.format("Failed... : %n%s", sw);
       }
+      return "asd";
     }
 
     @Override
